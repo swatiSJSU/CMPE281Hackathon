@@ -14,17 +14,20 @@ https://www.thoughtworks.com/insights/blog/nosql-databases-overview
 
 POC on Setting up Cassandra Cluster
 http://ealfonso.com/setting-up-a-cassandra-cluster-on-awsubuntu14-04/
-
+---------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
 Backend API in Nodejs using express, mongodb and bodyparser
-setup steps:
 
 MongoDB Setup for 3 clusters:
 Reference:https://gist.github.com/leommoore/309de7c0042ed697ee84
 
 Step1:
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+
 echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+
 sudo apt-get update
+
 sudo apt-get install -y mongodb-org
 
 Step2:
@@ -38,8 +41,11 @@ ip's below are ip's of AWS instances
 sudo nano /etc/hosts
 
 127.0.0.1           localhost mongo0.example.com
+
 52.51.12.62         mongo0.example.com
+
 52.18.54.237        mongo1.example.com
+
 52.40.234.42        mongo2.example.com
 
 Step 4:
@@ -57,29 +63,26 @@ mongo0.example.com
 
 Step 5: 
 ##Modify the Mongo Configuration You need to modify the mongo configuration /etc/mongod.conf to first remove or comment out the bind_ip. This will tell mongo to listen on all interfaces.
-------------------------------------------------------------------------------------------------------------------------------
 
-# mongod.conf                                                               
-
-# for documentation of all options, see:                                    
-#   http://docs.mongodb.org/manual/reference/configuration-options/         
-  
-# Where and how to store data.                                              
+-------------------------------------------------------------------------------------------------------------------------------
+#mongo.conf
+#Where and how to store the data                                            
 storage:                                                                    
   dbPath: /var/lib/mongodb                                                  
   journal:                                                                  
     enabled: true                                                           
-#  engine:                                                                  
-#  mmapv1:                                                                  
-#  wiredTiger:                                                              
- 
-# where to write logging data.                                              
+#engine:                                                             
+#mmapv1:                                                                  
+#wiredTiger:                                                              
+
+
+#Where to write logging data
 systemLog:                                                                  
   destination: file                                                         
   logAppend: true                                                           
   path: /var/log/mongodb/mongod.log                                         
  
-# network interfaces                                                        
+#network interfaces                                                        
 net:                   
   #bindIp: 127.0.0.1 - Important to comment this line
   port: 27017                                                               
@@ -97,14 +100,13 @@ replication:
 
 #sharding:                                                                  
 
-## Enterprise-Only Options:                                                 
+##Enterprise-Only Options:                                                 
 
 #auditLog:                                                                  
   
-#snmp:   
+#snmp:
 
 -------------------------------------------------------------------------------------------------------------------------------
-
 Step6: 
 ##Initiate the Replication Set Start the mongo shell on mongo0:
 mongo
@@ -120,7 +122,6 @@ rs.add("mongo1.example.com:27017")
 You can then add in the third server which will be the Arbitrator. Note to make this an Arbitrator you need to specify true when you add it to the set.
 
 rs.add("mongo2.example.com:27017",true)
-
 
 #Note
 when you are trying to run db.foo.find() on the Secondary. This is because the Secondary (ie the Slave) is not setup to perform reads. This can be enabled using the following command:
