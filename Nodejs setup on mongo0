@@ -1,0 +1,22 @@
+NodeJs Installation and Setup:
+
+1. sudo apt-get update
+sudo apt-get install build-essential libssl-dev
+
+2. curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh -o install_nvm.sh
+
+3. bash install_nvm.sh
+
+4. source ~/.profile
+
+5. nvm install 6.8.0
+
+6.nvm use 6.8.0
+
+7. npm install -g express
+
+8. npm link express
+
+9. npm install mongoose
+
+10. npm install body-parser
