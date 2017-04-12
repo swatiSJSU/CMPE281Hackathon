@@ -12,7 +12,7 @@ var Order       = require('./app/models/order');
 
 
 // DATABASE CONNECTION
-mongoose.connect('mongodb://localhost/starbucks_SFO'); // connect to our database
+mongoose.connect('mongodb://localhost/SFO'); // connect to our database
 
 
 // configure app to use bodyParser()
@@ -33,7 +33,7 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/starbucks_SFO)
+// test route to make sure everything is working (accessed at GET http://localhost:8080/SFO)
 router.get('/', function(req, res) {
     res.json({ message: 'welcome to our api!' });   
 });
@@ -45,7 +45,7 @@ router.get('/', function(req, res) {
 // ----------------------------------------------------
 router.route('/orders')
 
-    // create a Order (accessed at POST http://localhost:8080/starbucks_SFO/orders)
+    // create a Order (accessed at POST http://localhost:8080/SFO/orders)
     .post(function(req, res) {
         
         var order = new Order();      // create a new instance of the order
@@ -59,23 +59,24 @@ router.route('/orders')
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Order created! Order Number is : '+ order._id.toHexString() });
+            res.json({ message: 'Order created!'+'    '+ 'Order Number is : '+ order._id.toHexString() + '     '+'Drink Ordered : '+order.CupSize+' '+ order.Coffee});
+           
         });
         
     });
 
 
-// on routes that end in /bears
+// on routes that end in /orders
 // ----------------------------------------------------
 router.route('/orders')
 
-    // get all the orders (accessed at GET http://localhost:8080/starbucks_SFO/orders)
+    // get all the orders (accessed at GET http://localhost:8080/SFO/orders)
     .get(function(req, res) {
-        Order.find(function(err, starbucks_SFO) {
+        Order.find(function(err,SFO) {
             if (err)
                 res.send(err);
 
-            res.json(starbucks_SFO);
+            res.json(SFO);
         });
     });
 
@@ -86,7 +87,7 @@ router.route('/orders')
 // ----------------------------------------------------
 router.route('/orders/:_id')
 
-    // update the order with this id (accessed at PUT http://localhost:8080/starbucks_SFO/orders:orderID)
+    // update the order with this id (accessed at PUT http://localhost:8080/SFO/orders:orderID)
     .put(function(req, res) {
 
         // use our order model to find the order we want
@@ -113,7 +114,7 @@ router.route('/orders/:_id')
 // ----------------------------------------------------
 router.route('/orders/:_id')
 
-    // get the order with that id (accessed at GET http://localhost:8080/starbucks_SFO/orders/:orderID)
+    // get the order with that id (accessed at GET http://localhost:8080/SFO/orders/:_id)
     .get(function(req, res) {
         Order.find({"_id":req.params._id},function(err, order) {
             if (err)
@@ -123,11 +124,11 @@ router.route('/orders/:_id')
     });
 
 
-// on routes that end in /orders/:orderID
+// on routes that end in /orders/:_id
 // ----------------------------------------------------
 router.route('/orders/:_id')
 
-    // delete the bear with this id (accessed at DELETE http://localhost:8080/starbucks_SFO/orders/:orderID)
+    // delete the ORDER with this id (accessed at DELETE http://localhost:8080/SFO/orders/:_id)
     .delete(function(req, res) {
         Order.remove({
            "_id": req.params._id
@@ -135,15 +136,16 @@ router.route('/orders/:_id')
             if (err)
                 res.send(err);
 
-            res.json({ message: 'Order Successfully deleted for Order Number: ' + order._id.toHexString() });
+            res.json({ message: 'Order Successfully deleted !'});
+
         });
     });
 
 
 
 // REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /starbucks_SFO
-app.use('/starbucks_SFO', router);
+// all of our routes will be prefixed with /SFO
+app.use('/SFO', router);
 
 
 
