@@ -26,7 +26,7 @@ var port = process.env.PORT || 8080;        // set our port
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
 
-// middleware to use for all requests
+// middleware to route all requests
 router.use(function(req, res, next) {
     //Access Control
  res.setHeader('Access-Control-Allow-Origin', '*');
